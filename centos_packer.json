@@ -1,0 +1,43 @@
+{
+  "builders": [
+    {
+      "type": "vmware-iso",
+      "vm_name": "HOSTNAME",
+      "vmdk_name": "HOSTNAME",
+      "iso_url": "http://iso.host.url/iso/CentOS-6.7-x86_64-minimal.iso",
+      "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
+      "iso_checksum_type": "sha256",
+      "output_directory": "/dev/null",
+      "disk_size": "DISK",
+      "disk_type_id": "thin",
+      "http_directory": "~/sc-packer",
+      "remote_host": "ESX",
+      "remote_datastore": "DATASTORE",
+      "remote_username": "user",
+      "remote_password": "password",
+      "remote_type": "esx5",
+      "keep_registered": "true",
+      "ssh_username": "user",
+      "ssh_password": "password",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "450s",
+      "shutdown_command": "shutdown -h now",
+      "headless": "false",
+      "boot_command": [
+        "<tab> text ks=http://ks.url.com/HOSTNAME.cnf<enter><wait>"
+      ],
+      "boot_wait": "20s",
+      "vmx_data": {
+        "ethernet0.networkName": "VM Network",
+        "memsize": "2048",
+        "numvcpus": "2",  
+
+        "cpuid.coresPerSocket": "1",
+        "ide0:0.fileName": "HOSTNAME.vmdk",
+        "ide0:0.present": "TRUE",
+        "ide0:0.redo": "",
+        "scsi0:0.present": "FALSE"
+      }
+    }
+  ]
+}
