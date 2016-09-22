@@ -4,7 +4,7 @@
       "type": "vmware-iso",
       "vm_name": "HOSTNAME",
       "vmdk_name": "HOSTNAME",
-      "iso_url": "http://iso.host.url/iso/CentOS-6.7-x86_64-minimal.iso",
+      "iso_url": "http://centrep-1-vm.sidecartechnologies.com/iso/CentOS-6.7-x86_64-minimal.iso",
       "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
       "iso_checksum_type": "sha256",
       "output_directory": "/dev/null",
@@ -13,18 +13,18 @@
       "http_directory": "~/sc-packer",
       "remote_host": "ESX",
       "remote_datastore": "DATASTORE",
-      "remote_username": "user",
-      "remote_password": "password",
+      "remote_username": "root",
+      "remote_password": "sidecar13",
       "remote_type": "esx5",
       "keep_registered": "true",
-      "ssh_username": "user",
-      "ssh_password": "password",
+      "ssh_username": "root",
+      "ssh_password": "sidecar13",
       "ssh_port": 22,
       "ssh_wait_timeout": "450s",
       "shutdown_command": "shutdown -h now",
       "headless": "false",
       "boot_command": [
-        "<tab> text ks=http://ks.url.com/HOSTNAME.cnf<enter><wait>"
+        "<tab> text ks=http://centrep-1-vm.sidecartechnologies.com/ks/ks-config/HOSTNAME.cnf<enter><wait>"
       ],
       "boot_wait": "20s",
       "vmx_data": {

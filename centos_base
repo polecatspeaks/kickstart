@@ -1,0 +1,53 @@
+install
+text
+reboot
+url --url http://repo.server/repos/centos/6/os/x86_64
+repo --name=epel --baseurl=http://dl.fedoraproject.org/pub/epel/6/x86_64
+lang en_US.UTF-8
+keyboard us
+skipx
+network --device ETHERNET --ip IPADDR --bootproto static --netmask SUBNETMASK --gateway GATEWAY --nameserver NS1 --hostname HOSTNAME
+firewall --disabled
+selinux --disabled
+authconfig --enableshadow --passalgo=sha512
+rootpw --iscrypted $encryptedpassword
+timezone --utc America/New_York
+bootloader --location=mbr
+
+# This stops the stupid reinitialize disk prompt on a new vm
+zerombr
+
+# The following is the partition information 
+clearpart --all --initlabel --drives=sda
+
+# Setting up the disk partitioning. This should leave a lot of free space to allow for specific mount points to be done manually.
+part /boot --fstype ext4 --size=500
+part swap --size=1024
+part pv.01  --size=1000 --grow --ondisk=sda
+volgroup vg00 --pesize=4096 pv.01
+logvol / --vgname=vg00  --fstype=ext4  --size=50000 --name=lv_root
+logvol /opt --vgname=vg00 --fstype=ext4 --size=1 --grow --name=lv_opt
+
+%packages
+@core
+@base
+wget
+epel-release
+
+## ---------- POST-INSTALL TASKS ----------
+%post log=/root/ks-post.log
+
+## until we install all the proper Base utils
+sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+
+# system install date/time
+date > /etc/system-info/install-date
+
+# Set default password hash format to sha512
+authconfig --passalgo=sha512
+
+# Add Ansible User
+/usr/sbin/groupadd admin
+/usr/sbin/useradd -G wheel -m ansible
+
+
